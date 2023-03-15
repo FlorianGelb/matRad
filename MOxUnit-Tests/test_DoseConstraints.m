@@ -14,8 +14,7 @@ function test_suite=test_DoseConstraints
     
 
 function testComputeDoseConstraintJacobian(fileName)
-    concatenationOfFileName = strcat('DoseConstraints.', fileName);
-    functionNameHandle = str2func(concatenationOfFileName(1:end-2));
+    functionNameHandle = str2func(strcat('DoseConstraints.', fileName(1:end-2)));
     dose = [10 20 30 40 50 60]';
     obj = functionNameHandle(); %Constructor
     doseConstraintJacobian=obj.computeDoseConstraintJacobian(dose);

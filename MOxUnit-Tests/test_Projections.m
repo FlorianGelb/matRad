@@ -28,15 +28,15 @@ function test_suite=test_Projections
 
 function testProjection(fileName,dij,w)
     functionNameHandle = str2func(fileName(1:end-2));
-    proj = functionNameHandle(); %Constructor
-    nVox = dij.doseGrid.numOfVoxels;
-    nB = numel(w);
+    proj = functionNameHandle(); % Constructor
+    nVox = dij.doseGrid.numOfVoxels; % Number of voxels
+    nB = numel(w); % Number of weights
 
-    %Fails for matRad_VariableRBEProjection..
-    g = proj.projectSingleScenarioGradient(dij,{ones(nVox,1)},1,w);
+    % Fails for matRad_VariableRBEProjection..
+    g = proj.projectSingleScenarioGradient(dij,{ones(nVox,1)},1,w); % Gradient of Scenario
     
-    [jacobEst,err] = jacobianest(@(x) proj.computeSingleScenario(dij,1,x'),w');
-    gEst = sum(jacobEst)'; %Sums each row of the matrix(jacobEst)
+    [jacobEst,err] = jacobianest(@(x) proj.computeSingleScenario(dij,1,x'),w'); % Estimated jacobian
+    gEst = sum(jacobEst)'; % Sums each row of the matrix(jacobEst)
     err = sum(err); % 1x2 vector
     assertEqual(size(g), size(w));
     assertEqual(size(g), size(gEst));

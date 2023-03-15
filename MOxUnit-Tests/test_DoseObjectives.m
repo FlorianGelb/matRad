@@ -4,7 +4,7 @@ function test_suite=test_DoseObjectives
     for i=1:length(MyFolderInfo)
       if (MyFolderInfo(i).name(1)~='.')
        if not(isequal(MyFolderInfo(i).name, 'matRad_DoseObjective.m'))
-        test_functions{end+1} = eval(['@() testDoseGrad(''' MyFolderInfo(i).name ''')']); %Too show which object failed. Too have object name expliceed in function name.
+        test_functions{end+1} = eval(['@() testDoseGrad(''' MyFolderInfo(i).name ''')']); %Too show in console which object failed. Too have object name labeled in function name.
         test_functions{end+1} = eval(['@() testDoseObjectiveFunction(''' MyFolderInfo(i).name ''')']);
        end
       end
@@ -14,8 +14,7 @@ function test_suite=test_DoseObjectives
     
 
 function testDoseGrad(fileName)
-    concatenationOfFileName = strcat('DoseObjectives.', fileName);
-    functionNameHandle = str2func(concatenationOfFileName(1:end-2));
+    functionNameHandle = str2func(strcat('DoseObjectives.', fileName(1:end-2)));
     dose = [10 20 30 40 50 60]';
     obj = functionNameHandle(); %Constructor
     doseGrad=obj.computeDoseObjectiveGradient(dose);
