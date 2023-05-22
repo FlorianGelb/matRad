@@ -128,6 +128,7 @@ classdef matRad_OptimizerIPOPT < matRad_Optimizer
             [ipoptStruct.cl,ipoptStruct.cu] = optiProb.matRad_getConstraintBounds(cst);
             
             % set callback functions.
+            disp(optiProb)
             
             funcs.objective         = @(x) optiProb.matRad_objectiveFunction(x,dij,cst);
             funcs.constraints       = @(x) optiProb.matRad_constraintFunctions(x,dij,cst);

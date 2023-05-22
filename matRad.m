@@ -53,7 +53,16 @@ pln.propOpt.runSequencing   = false;  % 1/true: run sequencing, 0/false: don't /
 matRadGUI
 
 %% generate steering file
-stf = matRad_generateStf(ct,cst,pln);
+patientData = matRad_patientData;
+patientData.ct = ct;
+patientData.cst = cst;
+patientData.pln = pln;
+
+ct
+cst
+
+stf = matRad_generateStfPDO(patientData);
+
 
 %% dose calculation
 if strcmp(pln.radiationMode,'photons')
