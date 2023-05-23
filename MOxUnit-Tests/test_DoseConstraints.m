@@ -12,6 +12,8 @@ function test_suite=test_DoseConstraints
     test_functions = test_functions';
     initTestSuite;
     
+% Beide Tests werden für matRad_MinMaxDose, matRad_MinMaxDVH,
+% matRad_MinMaxEUD und matRad_MinMaxMeanDose ausgeführt.
 
 function testComputeDoseConstraintJacobian(fileName)
     functionNameHandle = str2func(strcat('DoseConstraints.', fileName(1:end-2)));

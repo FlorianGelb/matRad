@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<coverage branch-rate="NaN" branches-covered="NaN" branches-valid="NaN" complexity="NaN" line-rate="0.57895" lines-covered="22" lines-valid="38" timestamp="1684854268.7159" version="">
+  <sources>
+    <source>C:\Users\Florian\Documents\MatRad\matRad\</source>
+  </sources>
+  <packages>
+    <package branch-rate="NaN" complexity="NaN" line-rate="0.57895" name="">
+      <classes>
+        <class branch-rate="NaN" complexity="NaN" filename="matRad_interp1.m" line-rate="0.57895" name="matRad_interp1">
+          <methods/>
+          <lines>
+            <line hits="6" number="39"/>
+            <line hits="6" number="41"/>
+            <line hits="0" number="42"/>
+            <line hits="0" number="43"/>
+            <line hits="0" number="44"/>
+            <line hits="0" number="45"/>
+            <line hits="0" number="46"/>
+            <line hits="0" number="47"/>
+            <line hits="6" number="51"/>
+            <line hits="6" number="52"/>
+            <line hits="6" number="58"/>
+            <line hits="4" number="60"/>
+            <line hits="4" number="61"/>
+            <line hits="4" number="63"/>
+            <line hits="1" number="64"/>
+            <line hits="3" number="65"/>
+            <line hits="2" number="66"/>
+            <line hits="1" number="68"/>
+            <line hits="1" number="69"/>
+            <line hits="0" number="70"/>
+            <line hits="0" number="72"/>
+            <line hits="0" number="74"/>
+            <line hits="2" number="78"/>
+            <line hits="2" number="80"/>
+            <line hits="2" number="81"/>
+            <line hits="0" number="82"/>
+            <line hits="0" number="83"/>
+            <line hits="0" number="85"/>
+            <line hits="2" number="88"/>
+            <line hits="0" number="90"/>
+            <line hits="0" number="91"/>
+            <line hits="2" number="94"/>
+            <line hits="2" number="95"/>
+            <line hits="2" number="98"/>
+            <line hits="2" number="100"/>
+            <line hits="2" number="102"/>
+            <line hits="0" number="103"/>
+            <line hits="0" number="110"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>
