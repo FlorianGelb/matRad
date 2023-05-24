@@ -1,0 +1,96 @@
+classdef matRad_OptimizerFunctionPlotter
+properties
+    optimizerObject;
+    abortRequested
+    plotFailed
+end
+
+properties(Access=private)
+        axesHandle
+        plotHandle
+end
+
+properties(Access=protected)
+
+end
+
+
+methods
+    function obj = matRad_OptimizerFunctionPlotter(optimizerObject)
+    matRad_cfg = MatRad_Config.instance();
+    matRad_cfg.dispInfo("FunctionPlotter object invoked")
+    obj.optimizerObject = optimizerObject;
+    obj.axesHandle = [];
+    obj.abortRequested = false;
+            
+    end
+    
+    function plotFunction(obj)
+            % plot objective function output
+            y = obj.optimizerObject.allObjectiveFunctionValues;
+            x = 1:numel(y);
+            
+            if isempty(obj.axesHandle) || ~isgraphics(obj.axesHandle,'axes')
+                %Create new Fiure and store axes handle
+                hFig = figure('Name','Progress of IPOPT Optimization','NumberTitle','off','Color',[.5 .5 .5]);
+                hAx = axes(hFig);
+                hold(hAx,'on');
+                grid(hAx,'on');
+                grid(hAx,'minor');
+                set(hAx,'YScale','log');
+                 
+                %Add a Stop button with callback to change abort flag
+                c = uicontrol;
+                cPos = get(c,'Position');
+                cPos(1) = 5;
+                cPos(2) = 5;
+                set(c,  'String','Stop',...
+                        'Position',cPos,...
+                        'Callback',@(~,~) abortCallbackButton(obj.optimizerObject));                
+                
+                %Set up the axes scaling & labels
+                defaultFontSize = 14;
+                set(hAx,'YScale','log');
+                title(hAx,'Progress of Optimization','LineWidth',defaultFontSize);
+                xlabel(hAx,'# iterations','Fontsize',defaultFontSize),ylabel(hAx,'objective function value','Fontsize',defaultFontSize);
+                
+                %Create plot handle and link to data for faster update
+                hPlot = plot(hAx,x,y,'xb','LineWidth',1.5,'XDataSource','x','YDataSource','y');
+                obj.plotHandle = hPlot;
+                obj.axesHandle = hAx;
+                                
+            else %Figure already exists, retreive from axes handle
+                hFig = get(obj.axesHandle,'Parent');
+                hAx = obj.axesHandle;
+                hPlot = obj.plotHandle;
+            end
+            
+            % draw updated axes by refreshing data of the plot handle (which is linked to y and y) 
+            % in the caller workspace. Octave needs and works on figure handles, which
+            % is substantially (factor 10) slower, thus we check explicitly
+            switch obj.optimizerObject.env
+                case 'OCTAVE'
+                    refreshdata(hFig,'caller');
+                otherwise
+                    refreshdata(hPlot,'caller');
+            end
+            drawnow;
+            
+            % ensure to bring optimization window to front
+            figure(hFig);
+    end
+    
+    function abortCallbackKey(obj,~,KeyEvent)
+        % check if user pressed q
+        if  get(KeyEvent,'keyCode') == 81
+            obj.abortRequested = true;
+        end
+    end
+
+    function abortCallbackButton(obj,~,~,~)
+        obj.optimizerObject.abortRequested = true;
+    end
+
+end
+
+end

@@ -54,6 +54,7 @@ classdef (Abstract) matRad_DoseObjective < matRad_DoseOptimizationFunction
             s = struct@matRad_DoseOptimizationFunction(obj);
             s.penalty = obj.penalty;
         end
+
     end 
 end
 
