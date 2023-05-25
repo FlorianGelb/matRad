@@ -1,5 +1,5 @@
 classdef matRad_LogType < handle
-    properties(Access = private)
+    properties
         logLevel;
         name;
         modifiedMessage;

@@ -15,7 +15,7 @@ classdef matRad_OptimizerFunctionPlotter
     methods
         function obj = matRad_OptimizerFunctionPlotter(optimizerObject)
             matRad_cfg = MatRad_Config.instance();
-            matRad_cfg.dispInfo("Plotter Object invoked");
+            matRad_cfg.logWithCustomLogType("info", "Plotter Object invoked");
             obj.optimizerObject = optimizerObject;
             obj.axesHandle = [];
             obj.env = matRad_getEnvironment();
