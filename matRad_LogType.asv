@@ -1,0 +1,13 @@
+classdef matRad_LogType < handle
+    properties(Access = private)
+        logLevel;
+        name;
+        modifiedMessage;
+        action;
+    end
+    methods
+        function obj = matRad_LogType(logLevel, name, mod)
+            
+        end
+    end
+end

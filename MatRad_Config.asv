@@ -142,10 +142,9 @@ classdef MatRad_Config < handle
             obj.setDefaultProperties();
         end
         
-        function logWithCustomLogType(logTypeName, message)
-            logTypeRegistry = MatRad_LogTypeRegistry.instance();
-            logType = logTypeRegistry.getRegisteredLogTypeByName(logTypeName);
-            logType.action(logType.modifiedMessage + message);
+        function logWithCustomLogType(obj)
+            MatRad_LogTypeRegistry.instance();
+        
         end
         
         function setDefaultProperties(obj)
