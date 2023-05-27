@@ -74,7 +74,7 @@ display(qi(ixRectum).D_5);
 % the treatment plan and evaluate dose statistics one more time.
 
 objective = cst{ixRectum,6}{1}; %This gives a struct
-objective = matRad_DoseOptimizationFunction.createInstanceFromStruct(objective); %Now we turn it into a class
+objective = matRad_DoseOptimizationBuilder.createInstanceFromStruct(objective); %Now we turn it into a class
 objective = objective.setDoseParameters(40); %We can simply call this function to change the/all dose parameter(s)
 cst{ixRectum,6}{1} = struct(objective); % We put it back as struct
 

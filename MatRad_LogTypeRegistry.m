@@ -4,7 +4,8 @@ classdef MatRad_LogTypeRegistry < handle
     end
 
     methods(Access = private)
-
+        function obj = MatRad_LogTypeRegistry()
+        end
     end
 
     methods

@@ -67,7 +67,7 @@ classdef matRad_MinMaxEUD < DoseConstraints.matRad_DoseConstraint
             s = struct@DoseConstraints.matRad_DoseConstraint(obj);
             %Nothing to do here...
         end
-        
+          
         function cu = upperBounds(obj,n)
             cu = obj.parameters{3};
         end

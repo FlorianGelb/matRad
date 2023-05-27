@@ -46,7 +46,7 @@ cst  = matRad_setOverlapPriorities(cst);
 for i = 1:size(cst,1)
     %Compatibility Layer for old objective format
     if isstruct(cst{i,6})
-        cst{i,6} = arrayfun(@matRad_DoseOptimizationFunction.convertOldOptimizationStruct,cst{i,6},'UniformOutput',false);
+        cst{i,6} = arrayfun(@matRad_DoseOptimizationConverter.convertOldOptimizationStruct,cst{i,6},'UniformOutput',false);
     end
     for j = 1:numel(cst{i,6})
         
@@ -57,7 +57,7 @@ for i = 1:size(cst,1)
         %objective or constraint function in the end
         if ~isa(obj,'matRad_DoseOptimizationFunction')
             try
-                obj = matRad_DoseOptimizationFunction.createInstanceFromStruct(obj);
+                obj = matRad_DoseOptimizationBuilder.createInstanceFromStruct(obj);
             catch
                 matRad_cfg.dispError('cst{%d,6}{%d} is not a valid Objective/constraint! Remove or Replace and try again!',i,j);
             end

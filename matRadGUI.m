@@ -4009,7 +4009,7 @@ for i = 1:size(cst,1)
     if strcmp(cst(i,3),'IGNORED')~=1
         %Compatibility Layer for old objective format
         if isstruct(cst{i,6})
-            cst{i,6} = arrayfun(@matRad_DoseOptimizationFunction.convertOldOptimizationStruct,cst{i,6},'UniformOutput',false);
+            cst{i,6} = arrayfun(@matRad_DoseOptimizationConverter.convertOldOptimizationStruct,cst{i,6},'UniformOutput',false);
         end
         for j=1:numel(cst{i,6})
       
@@ -4018,7 +4018,7 @@ for i = 1:size(cst,1)
            %Convert to class if not
            if ~isa(obj,'matRad_DoseOptimizationFunction')
                 try
-                    obj = matRad_DoseOptimizationFunction.createInstanceFromStruct(obj);
+                    obj = matRad_DoseOptimizationBuilder.createInstanceFromStruct(obj);
                 catch ME
                     warning('Objective/Constraint not valid!\n%s',ME.message)
                     continue;

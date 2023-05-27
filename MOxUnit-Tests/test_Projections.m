@@ -16,7 +16,7 @@ function test_suite=test_Projections
     test_functions = {};
     MyFolderInfo = dir('../optimization/projections'); %relative path
     for i=1:length(MyFolderInfo)
-      if (MyFolderInfo(i).name(1)~='.')
+      if (MyFolderInfo(i).name(1)~='.' && ~contains(MyFolderInfo(i).name(1), ".asv"))
        if not(isequal(MyFolderInfo(i).name, 'matRad_BackProjection.m'))
         test_functions{end+1} = eval( ...
             ['@() testProjection(''' MyFolderInfo(i).name ''', dij, w )']);

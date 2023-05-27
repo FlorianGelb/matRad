@@ -95,7 +95,7 @@ for runVoi = 1:size(cst,1)
             referenceDose = inf;
             
             if isstruct(cst{runVoi,6})
-                cst{runVoi,6} = num2cell(arrayfun(@matRad_DoseOptimizationFunction.convertOldOptimizationStruct,cst{runVoi,6}));
+                cst{runVoi,6} = num2cell(arrayfun(@matRad_DoseOptimizationConverter.convertOldOptimizationStruct,cst{runVoi,6}));
             end
             
             for runObjective = 1:numel(cst{runVoi,6})
@@ -103,7 +103,7 @@ for runVoi = 1:size(cst,1)
                obj = cst{runVoi,6}{runObjective};
                if ~isa(obj,'matRad_DoseOptimizationFunction')
                    try
-                       obj = matRad_DoseOptimizationFunction.createInstanceFromStruct(obj);
+                       obj = matRad_DoseOptimizationBuilder.createInstanceFromStruct(obj);
                    catch ME
                        matRad_cfg.dispWarning('Objective/Constraint not valid!\n%s',ME.message)
                        continue;

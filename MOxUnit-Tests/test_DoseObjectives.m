@@ -2,7 +2,7 @@ function test_suite=test_DoseObjectives
     test_functions = {};
     MyFolderInfo = dir('../optimization/+DoseObjectives'); %relative path
     for i=1:length(MyFolderInfo)
-      if (MyFolderInfo(i).name(1)~='.')
+      if (MyFolderInfo(i).name(1)~='.' && ~contains(MyFolderInfo(i).name(1), ".asv"))
        if not(isequal(MyFolderInfo(i).name, 'matRad_DoseObjective.m'))
         test_functions{end+1} = eval(['@() testDoseGrad(''' MyFolderInfo(i).name ''')']); %Too show in console which object failed. Too have object name labeled in function name.
         test_functions{end+1} = eval(['@() testDoseObjectiveFunction(''' MyFolderInfo(i).name ''')']);
