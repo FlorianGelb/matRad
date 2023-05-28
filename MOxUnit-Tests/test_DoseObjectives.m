@@ -1,38 +1,66 @@
 function test_suite=test_DoseObjectives
     test_functions = {};
-    MyFolderInfo = dir('../optimization/+DoseObjectives'); %relative path
+
+    % Needs relative path
+    MyFolderInfo = dir('../optimization/+DoseObjectives');
+
     for i=1:length(MyFolderInfo)
       if (MyFolderInfo(i).name(1)~='.' && ~contains(MyFolderInfo(i).name(1), ".asv"))
        if not(isequal(MyFolderInfo(i).name, 'matRad_DoseObjective.m'))
-        test_functions{end+1} = eval(['@() testDoseGrad(''' MyFolderInfo(i).name ''')']); %Too show in console which object failed. Too have object name labeled in function name.
+
+        % 'eval(...)' term to show in console which object failed.
+        % To have object name labeled in function name.
+        test_functions{end+1} = eval(['@() testDoseGrad(''' MyFolderInfo(i).name ''')']);
         test_functions{end+1} = eval(['@() testDoseObjectiveFunction(''' MyFolderInfo(i).name ''')']);
+
        end
       end
     end
     test_functions = test_functions';
     initTestSuite;
     
+    % Beide Tests werden für matRad_MinMaxDose, matRad_MinMaxDVH,
+    % matRad_MinMaxEUD und matRad_MinMaxMeanDose ausgeführt.
 
 function testDoseGrad(fileName)
-    functionNameHandle = str2func(strcat('DoseObjectives.', fileName(1:end-2)));
+    % Building Constructor using the file name.
+    constructorOffObjective = str2func(strcat('DoseObjectives.', fileName(1:end-2)));
+
+    % Dose initialization
     dose = [10 20 30 40 50 60]';
-    obj = functionNameHandle(); %Constructor
+
+    % Calls Constructor
+    obj = constructorOffObjective();
+
     doseGrad=obj.computeDoseObjectiveGradient(dose);
-    assertTrue(isreal(doseGrad)); %nth root problem (Problem based on complex values of EUD)
+
+    % nth root problem (Problem based on complex values of EUD)
+    % Fails for EUD
+    assertTrue(isreal(doseGrad));
+
     [grad,err,finaldelta]=gradest(@(x) obj.computeDoseObjectiveFunction(x'), dose');
     epsilon = doseGrad*obj.maxDerivativeError + err';
-    assertElementsAlmostEqual(grad', doseGrad, 'absolute', max(epsilon)); % Accepts vectors and matrices | Accepts vectors as epsilon
-    assertVectorsAlmostEqual(grad', doseGrad, 'absolute', max(epsilon)); % Just accepts verctors | Add err + errImp
+
+    % Accepts vectors and matrices | Accepts vectors as epsilon
+    assertElementsAlmostEqual(grad', doseGrad, 'absolute', max(epsilon));
+
+    % Just accepts verctors | Add err + errImp
+    assertVectorsAlmostEqual(grad', doseGrad, 'absolute', max(epsilon));
+
     assertEqual(size(doseGrad), size(dose));
     assertNotEqual(doseGrad, NaN);
     assertNotEqual(doseGrad, Inf);
     assertNotEqual(doseGrad, -Inf);
 
 function testDoseObjectiveFunction(fileName)
-    concatenationOfFileName = strcat('DoseObjectives.', fileName);
-    functionNameHandle = str2func(concatenationOfFileName(1:end-2));
+    % Building Constructor using the file name.
+    constructorOffObjective = str2func(strcat('DoseObjectives.', fileName(1:end-2)));
+
     dose = [10 20 30 40 50 60];
-    obj = functionNameHandle(); %Constructor
+
+    % Calls Constructor
+    obj = constructorOffObjective();
+
     f = obj.computeDoseObjectiveFunction(dose);
     [r,c] = size(f);
     assertTrue(isreal(f));

@@ -1,4 +1,5 @@
 function test_suite=test_Projections
+    % Initialization of dose influence structure
     nVox = 3;
     nB = 2;
     dij.ax= 0.1*ones(nVox,1);
@@ -12,9 +13,15 @@ function test_suite=test_Projections
     dij.doseGrid.numOfVoxels = nVox;
     dij.fixedCurrent = 300;
     dij.RBE = 1.1;
+
+    % Weights during optimization
     w = ones(nB,1);
+
     test_functions = {};
-    MyFolderInfo = dir('../optimization/projections'); %relative path
+
+    % Needs relative path
+    MyFolderInfo = dir('../optimization/projections');
+
     for i=1:length(MyFolderInfo)
       if (MyFolderInfo(i).name(1)~='.' && ~contains(MyFolderInfo(i).name(1), ".asv"))
        if not(isequal(MyFolderInfo(i).name, 'matRad_BackProjection.m'))
@@ -26,18 +33,35 @@ function test_suite=test_Projections
     test_functions = test_functions';
     initTestSuite;
 
+    % Tests classes ConstantRBEProjection, DoseProjection, EffectProjection
+    % and VariableRBEProjection
+
 function testProjection(fileName,dij,w)
-    functionNameHandle = str2func(fileName(1:end-2));
-    proj = functionNameHandle(); % Constructor
-    nVox = dij.doseGrid.numOfVoxels; % Number of voxels
-    nB = numel(w); % Number of weights
+    % Building Constructor using the file name.
+    constructorOfProjection = str2func(fileName(1:end-2));
+
+    % Calls Constructor
+    proj = constructorOfProjection();
+
+    % Number of voxels
+    nVox = dij.doseGrid.numOfVoxels;
+
+    % Number of weights
+    nB = numel(w);
 
     % Fails for matRad_VariableRBEProjection..
-    g = proj.projectSingleScenarioGradient(dij,{ones(nVox,1)},1,w); % Gradient of Scenario
+    % Gradient of Scenario
+    g = proj.projectSingleScenarioGradient(dij,{ones(nVox,1)},1,w);
     
-    [jacobEst,err] = jacobianest(@(x) proj.computeSingleScenario(dij,1,x'),w'); % Estimated jacobian
-    gEst = sum(jacobEst)'; % Sums each row of the matrix(jacobEst)
-    err = sum(err); % 1x2 vector
+    % Estimated jacobian
+    [jacobEst,err] = jacobianest(@(x) proj.computeSingleScenario(dij,1,x'),w');
+
+    % Sums each row of the matrix(jacobEst)
+    gEst = sum(jacobEst)';
+
+    % 1x2 vector
+    err = sum(err);
+
     assertEqual(size(g), size(w));
     assertEqual(size(g), size(gEst));
     assertEqual(length(g), nB);
