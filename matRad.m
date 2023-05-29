@@ -18,10 +18,13 @@ matRad_rc
 % load patient data, i.e. ct, voi, cst
 
 %load HEAD_AND_NECK
-load TG119.mat
+%load TG119.mat
 %load PROSTATE.mat
 %load LIVER.mat
 %load BOXPHANTOM.mat
+repo = matRad_dataRepository();
+repo.loadPatientData("TG119");
+[cst, ct] = repo.getPatientDataByName("TG119");
 
 % meta information for treatment plan
 

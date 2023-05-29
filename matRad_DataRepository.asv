@@ -1,0 +1,54 @@
+classdef matRad_dataRepository < matRad_AbstractDataRepository
+    properties(Access=private)
+        patientData = dictionary;
+        config;
+    end
+
+    methods
+        function obj = matRad_dataRepository(obj)
+            obj.config = MatRad_Config.instance();
+        end
+
+        function [cst, ct] = getPatientDataByName(obj, name)
+
+            try
+                [cst, ct] = obj.patientData(name);
+            catch
+                MException(name + " was not found.")
+            end
+
+        end
+
+        function obj = loadPatientData(obj, name)
+            try
+                if isnan(obj.getPatientDataByName(name))
+                    patientDataStruct = load(name);
+                    obj.patientData(name) = patientDataStruct;
+                end
+            catch e
+                obj.config.logWithCustomLogType("error", name + " not found");
+            end
+        end
+
+        
+        %% Die folgenden Methoden, zur Umsetzung von CRUD sind nicht 
+        % sinnvoll implementiert, weil es hier noch keinen praktischen
+        % Use-Case gibt. MatRad soll keine persitenten Daten ändern.
+
+        function createPatientData(obj)
+            obj.config.logWithCustomLogType("info", "created");
+        end
+
+        function updatePatientData(obj)
+            obj.config.logWithCustomLogType("info", "updated");
+        end
+
+        function deletePatientData(obj)
+            obj.config.logWithCustomLogType("info", "deleted");
+        end
+
+
+    end
+
+
+end
